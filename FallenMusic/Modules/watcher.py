@@ -100,7 +100,7 @@ async def on_stream_end(pytgcalls, update: Update):
             await _clear_(chat_id)
             return await pytgcalls.leave_group_call(chat_id)
 
-        img = await gen_thumb(videoid, user_id)
+        img = await gen_thumb(videoid)
         await process.delete()
         await app.send_photo(
             chat_id=chat_id,

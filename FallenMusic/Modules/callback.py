@@ -163,7 +163,7 @@ async def admin_cbs(_, query: CallbackQuery):
                 await _clear_(query.message.chat.id)
                 return await pytgcalls.leave_group_call(query.message.chat.id)
 
-            img = await gen_thumb(videoid, user_id)
+            img = await gen_thumb(videoid)
             await query.edit_message_text(
                 text=f"➻ sᴛʀᴇᴀᴍ sᴋɪᴩᴩᴇᴅ 🥺\n│ \n└ʙʏ : {query.from_user.mention} 🥀",
                 reply_markup=close_key,
