@@ -224,7 +224,6 @@ async def play(_, message: Message):
             caption=f"**➻ ᴀᴅᴅᴇᴅ ᴛᴏ ᴏ̨ᴜᴇᴜᴇ ᴀᴛ {position}**\n\n‣ **ᴛɪᴛʟᴇ :** [{title[:27]}](https://t.me/{BOT_USERNAME}?start=info_{videoid})\n‣ **ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n‣ **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ :** {ruser}",
             reply_markup=buttons,
         )
-        queue_message_id = queue_message.message_id
 
     else:
         stream = AudioPiped(file_path, audio_parameters=HighQualityAudio())
@@ -248,12 +247,8 @@ async def play(_, message: Message):
                 f"» {BOT_NAME} ᴀssɪsᴛᴀɴᴛ ɪs ᴍᴜᴛᴇᴅ ᴏɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ,\n\nᴘʟᴇᴀsᴇ ᴜɴᴍᴜᴛᴇ {ASS_MENTION} ᴏɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ ᴀɴᴅ ᴛʀʏ ᴘʟᴀʏɪɴɢ ᴀɢᴀɪɴ."
             )
         
-        if 'queue_message_id' in locals():
-            try:
-                await app.delete_messages(message.chat.id, queue_message_id)
-            except:
-                pass
-
+        await queue_message.delete()
+        
         imgt = await gen_thumb(videoid)
         await stream_on(message.chat.id)
         await add_active_chat(message.chat.id)
@@ -262,13 +257,6 @@ async def play(_, message: Message):
             caption=f"**➻ sᴛᴀʀᴛᴇᴅ sᴛʀᴇᴀᴍɪɴɢ**\n\n‣ **ᴛɪᴛʟᴇ :** [{title[:27]}](https://t.me/{BOT_USERNAME}?start=info_{videoid})\n‣ **ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n‣ **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ :** {ruser}",
             reply_markup=buttons,
         )
-        asyncio.create_task(delete_stream(stream_message, 1800))
+        await stream_message.delete()
 
     return await fallen.delete()
-
-async def delete_stream(message, delay):
-    await asyncio.sleep(delay)
-    try:
-        await message.delete()
-    except Exception as e:
-        LOGGER.error(f"Failed to delete message: {e}")
