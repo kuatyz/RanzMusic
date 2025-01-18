@@ -219,7 +219,7 @@ async def play(_, message: Message):
         )
         position = len(fallendb.get(message.chat.id))
         qimg = await gen_qthumb(videoid)
-        queue_message = await message.reply_photo(
+        await message.reply_photo(
             photo=qimg,
             caption=f"**➻ ᴀᴅᴅᴇᴅ ᴛᴏ ᴏ̨ᴜᴇᴜᴇ ᴀᴛ {position}**\n\n‣ **ᴛɪᴛʟᴇ :** [{title[:27]}](https://t.me/{BOT_USERNAME}?start=info_{videoid})\n‣ **ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n‣ **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ :** {ruser}",
             reply_markup=buttons,
@@ -247,16 +247,15 @@ async def play(_, message: Message):
                 f"» {BOT_NAME} ᴀssɪsᴛᴀɴᴛ ɪs ᴍᴜᴛᴇᴅ ᴏɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ,\n\nᴘʟᴇᴀsᴇ ᴜɴᴍᴜᴛᴇ {ASS_MENTION} ᴏɴ ᴠɪᴅᴇᴏᴄʜᴀᴛ ᴀɴᴅ ᴛʀʏ ᴘʟᴀʏɪɴɢ ᴀɢᴀɪɴ."
             )
         
-        await queue_message.delete()
-        
         imgt = await gen_thumb(videoid)
         await stream_on(message.chat.id)
         await add_active_chat(message.chat.id)
-        stream_message = await message.reply_photo(
+        stream_msg = await message.reply_photo(
             photo=imgt,
             caption=f"**➻ sᴛᴀʀᴛᴇᴅ sᴛʀᴇᴀᴍɪɴɢ**\n\n‣ **ᴛɪᴛʟᴇ :** [{title[:27]}](https://t.me/{BOT_USERNAME}?start=info_{videoid})\n‣ **ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n‣ **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ :** {ruser}",
             reply_markup=buttons,
         )
-        await stream_message.delete()
+        await asyncio.sleep(10)
+        await stream_msg.delete()
 
     return await fallen.delete()
