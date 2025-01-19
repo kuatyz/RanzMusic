@@ -250,12 +250,10 @@ async def play(_, message: Message):
         imgt = await gen_thumb(videoid)
         await stream_on(message.chat.id)
         await add_active_chat(message.chat.id)
-        stream_msg = await message.reply_photo(
+        fallen = await message.reply_photo(
             photo=imgt,
             caption=f"**➻ sᴛᴀʀᴛᴇᴅ sᴛʀᴇᴀᴍɪɴɢ**\n\n‣ **ᴛɪᴛʟᴇ :** [{title[:27]}](https://t.me/{BOT_USERNAME}?start=info_{videoid})\n‣ **ᴅᴜʀᴀᴛɪᴏɴ :** `{duration}` ᴍɪɴᴜᴛᴇs\n‣ **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ :** {ruser}",
             reply_markup=buttons,
         )
-        await asyncio.sleep(10)
-        await stream_msg.delete()
-
-    return await fallen.delete()
+        
+        await fallen.delete()
